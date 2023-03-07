@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 $config = array(
     'database' => array(
         'server-name' => $_SERVER["SERVER_NAME"],
-        'url' => '/project/api/',
+        'url' => '/shop_shoes/api/',
         'type' => 'mysql',
         'host' => 'localhost',
         'username' => 'root',
