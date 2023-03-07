@@ -94,3 +94,4 @@ class Flash
         return $str;
     }
 }
+?>

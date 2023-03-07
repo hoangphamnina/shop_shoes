@@ -13,3 +13,4 @@ define("UPLOAD_PRODUCT", "../upload/product/");
 define("UPLOAD_PRODUCT_L", "upload/product/");
 define("UPLOAD_NEWS", "../upload/news/");
 define("UPLOAD_NEWS_L", "upload/news/");
+?>

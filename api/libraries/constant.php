@@ -3,7 +3,7 @@ if (!defined('LIBRARIES')) die("Error");
 
 /* Array folders */
 $upload_const = 'upload';
-$array_const = array('file', 'filemanager', 'sync', 'excel', 'seopage', 'photo', 'video', 'temp', 'user', 'product', 'color', 'news', 'tags');
+$array_const = array('file', 'photo', 'video', 'user', 'product', 'news');
 
 /* Define - Create folders upload */
 if (!file_exists(ROOT . $upload_const)) {
@@ -66,3 +66,4 @@ if (file_exists(ROOT . $upload_const) && $array_const) {
 
 /* Define - Include defined constants */
 include LIBRARIES . "upload.php";
+?>

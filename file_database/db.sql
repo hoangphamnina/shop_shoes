@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2023 at 04:03 PM
+-- Generation Time: Mar 07, 2023 at 09:15 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -37,7 +37,7 @@ CREATE TABLE `table_city` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_city`
@@ -117,20 +117,19 @@ INSERT INTO `table_city` (`id`, `name`, `slug`, `level`, `code`, `numb`, `status
 CREATE TABLE `table_color` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` varchar(30) DEFAULT NULL,
   `numb` int(11) DEFAULT 0,
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_color`
 --
 
-INSERT INTO `table_color` (`id`, `name`, `type`, `numb`, `status`, `date_created`, `date_updated`) VALUES
-(1, 'Xanh', 'san-pham', 1, 'hienthi', 1609247839, 1628742013),
-(2, 'Tím', 'san-pham', 2, 'hienthi', 1609247860, 0);
+INSERT INTO `table_color` (`id`, `name`, `numb`, `status`, `date_created`, `date_updated`) VALUES
+(1, 'Xanh', 1, 'hienthi', 1609247839, 1628742013),
+(2, 'Tím', 2, 'hienthi', 1609247860, 0);
 
 -- --------------------------------------------------------
 
@@ -140,7 +139,7 @@ INSERT INTO `table_color` (`id`, `name`, `type`, `numb`, `status`, `date_created
 
 CREATE TABLE `table_comment` (
   `id` int(11) NOT NULL,
-  `id_parent` int(11) DEFAULT 0,
+  `id_parent` int(11) UNSIGNED DEFAULT NULL,
   `star` int(11) DEFAULT 0,
   `title` varchar(255) DEFAULT NULL,
   `content` text DEFAULT NULL,
@@ -149,9 +148,8 @@ CREATE TABLE `table_comment` (
   `email` varchar(100) DEFAULT NULL,
   `poster` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `type` varchar(30) DEFAULT NULL,
   `date_posted` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -171,7 +169,7 @@ CREATE TABLE `table_contact` (
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0,
   `numb` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -183,7 +181,7 @@ CREATE TABLE `table_counter` (
   `id` int(11) NOT NULL,
   `tm` int(11) DEFAULT 0,
   `ip` varchar(16) DEFAULT '0.0.0.0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_counter`
@@ -3939,7 +3937,7 @@ CREATE TABLE `table_district` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_district`
@@ -4661,30 +4659,30 @@ INSERT INTO `table_district` (`id`, `id_city`, `name`, `slug`, `code`, `level`, 
 
 CREATE TABLE `table_gallery` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_parent` int(11) DEFAULT 0,
+  `id_parent` int(11) UNSIGNED DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `numb` int(11) DEFAULT 0,
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_gallery`
 --
 
 INSERT INTO `table_gallery` (`id`, `id_parent`, `photo`, `name`, `numb`, `status`, `date_created`, `date_updated`) VALUES
-(80, 1, 'vlheobom76qfsuonryd1-8861-1463.png', '', 7, 'hienthi', 1675330849, 0),
-(79, 1, 'v3mhzhih1rll4p8nndyd-6075-5502.png', '', 6, 'hienthi', 1675330849, 0),
-(78, 1, 'pxbotpg619vte84cqhpg-1165-5041.png', '', 5, 'hienthi', 1675330849, 0),
-(77, 1, 'jpc1kzktrzrtpxgphryk-7564-1921.png', '', 4, 'hienthi', 1675330849, 0),
-(76, 1, 'ban-xe-chevrolet-spark-2013-5321-6845.png', '', 3, 'hienthi', 1675330849, 0),
-(75, 1, '2ykpaet8l1swufbtbkve-3614-7531.png', '', 2, 'hienthi', 1675330849, 0),
-(28, 1, 'news-1-4178-4827.jpeg', '', 2, '', 1609287029, 0),
 (27, 1, 'news-1-1102-4315.jpg', '', 1, '', 1609287029, 0),
+(28, 1, 'news-1-4178-4827.jpeg', '', 2, '', 1609287029, 0),
 (29, 1, 'news-3-4960-2676.jpg', '', 3, '', 1609287029, 0),
-(30, 1, 'news-2-1467-9982.jpg', '', 4, '', 1609287029, 0);
+(30, 1, 'news-2-1467-9982.jpg', '', 4, '', 1609287029, 0),
+(75, 1, '2ykpaet8l1swufbtbkve-3614-7531.png', '', 2, 'hienthi', 1675330849, 0),
+(76, 1, 'ban-xe-chevrolet-spark-2013-5321-6845.png', '', 3, 'hienthi', 1675330849, 0),
+(77, 1, 'jpc1kzktrzrtpxgphryk-7564-1921.png', '', 4, 'hienthi', 1675330849, 0),
+(78, 1, 'pxbotpg619vte84cqhpg-1165-5041.png', '', 5, 'hienthi', 1675330849, 0),
+(79, 1, 'v3mhzhih1rll4p8nndyd-6075-5502.png', '', 6, 'hienthi', 1675330849, 0),
+(80, 1, 'vlheobom76qfsuonryd1-8861-1463.png', '', 7, 'hienthi', 1675330849, 0);
 
 -- --------------------------------------------------------
 
@@ -4704,7 +4702,7 @@ CREATE TABLE `table_news` (
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0,
   `view` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_news`
@@ -4731,25 +4729,25 @@ INSERT INTO `table_news` (`id`, `photo`, `slug`, `content`, `desc`, `name`, `num
 
 CREATE TABLE `table_order` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_user` int(11) DEFAULT 0,
+  `id_user` int(11) UNSIGNED DEFAULT NULL,
   `code` varchar(25) DEFAULT NULL,
   `fullname` varchar(255) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `order_payment` int(11) DEFAULT 0,
-  `temp_price` double DEFAULT 0,
-  `total_price` double DEFAULT 0,
   `city` int(11) DEFAULT 0,
   `district` int(11) DEFAULT 0,
   `ward` int(11) DEFAULT 0,
-  `ship_price` double DEFAULT 0,
+  `order_payment` int(11) DEFAULT 0,
   `requirements` mediumtext DEFAULT NULL,
   `notes` mediumtext DEFAULT NULL,
+  `temp_price` double DEFAULT 0,
+  `ship_price` double DEFAULT 0,
+  `total_price` double DEFAULT 0,
+  `numb` int(11) DEFAULT 0,
   `date_created` int(11) DEFAULT 0,
-  `order_status` int(11) DEFAULT 0,
-  `numb` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `order_status` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4759,16 +4757,16 @@ CREATE TABLE `table_order` (
 
 CREATE TABLE `table_order_detail` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_order` int(11) DEFAULT 0,
-  `id_product` int(11) DEFAULT 0,
+  `id_order` int(11) UNSIGNED DEFAULT NULL,
+  `id_product` int(11) UNSIGNED DEFAULT NULL,
+  `id_color` int(11) UNSIGNED DEFAULT NULL,
+  `id_size` int(11) UNSIGNED DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
-  `id_color` int(11) DEFAULT 0,
-  `id_size` int(11) DEFAULT 0,
   `quantity` int(11) DEFAULT 0,
   `price` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4779,19 +4777,21 @@ CREATE TABLE `table_order_detail` (
 CREATE TABLE `table_permission_group` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `numb` int(11) DEFAULT 0,
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_permission_group`
 --
 
-INSERT INTO `table_permission_group` (`id`, `name`, `numb`, `status`, `date_created`, `date_updated`) VALUES
-(1, 'Nhóm quyền cấp cao', 1, 'hienthi', 1609288475, 1672991502),
-(2, 'Nhóm quyền cơ bản', 2, 'hienthi', 1609288536, 1641189579);
+INSERT INTO `table_permission_group` (`id`, `name`, `type`, `numb`, `status`, `date_created`, `date_updated`) VALUES
+(1, 'Nhóm quyền cấp cao', 'admin', 1, 'hienthi', 1609288475, 1672991502),
+(2, 'Nhóm quyền cơ bản', 'admin', 2, 'hienthi', 1609288536, 1641189579),
+(3, 'Nhóm quyền người dùng', 'user', 3, 'hienthi', 2147483647, 2147483647);
 
 -- --------------------------------------------------------
 
@@ -4813,7 +4813,7 @@ CREATE TABLE `table_photo` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_photo`
@@ -4855,8 +4855,8 @@ INSERT INTO `table_photo` (`id`, `photo`, `content`, `desc`, `name`, `link`, `li
 
 CREATE TABLE `table_product` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_list` int(11) DEFAULT 0,
-  `id_brand` int(11) DEFAULT 0,
+  `id_list` int(11) DEFAULT NULL,
+  `id_brand` int(11) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `slug` varchar(255) DEFAULT NULL,
   `content` mediumtext DEFAULT NULL,
@@ -4866,31 +4866,29 @@ CREATE TABLE `table_product` (
   `regular_price` double DEFAULT 0,
   `sale_price` double DEFAULT 0,
   `numb` int(11) DEFAULT 0,
+  `view` int(11) DEFAULT 0,
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
-  `date_updated` int(11) DEFAULT 0,
-  `view` int(11) DEFAULT 0,
-  `size` text DEFAULT NULL,
-  `color` text DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `date_updated` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_product`
 --
 
-INSERT INTO `table_product` (`id`, `id_list`, `id_brand`, `photo`, `slug`, `content`, `desc`, `name`, `code`, `regular_price`, `sale_price`, `numb`, `status`, `date_created`, `date_updated`, `view`, `size`, `color`) VALUES
-(1, 1, 1, 'jpc1kzktrzrtpxgphryk-9520.png', 'giay-slip-on-ultraboost-20', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 20', 'SOUL-20', 350000, 250000, 1, 'noibat,hienthi', 1609248457, 1676424711, 722, '2,1', '1,2'),
-(2, 1, 2, '2ykpaet8l1swufbtbkve-3614.png', 'giay-slip-on-ultraboost-21', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 21', 'SOUL-21', 450000, 300000, 2, 'noibat,hienthi', 1609248594, 1675330809, 64, '', ''),
-(3, 1, 3, 'ban-xe-chevrolet-spark-2013-5321.png', 'giay-slip-on-ultraboost-22', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 22', 'SOUL-22', 250000, 150000, 3, 'noibat,hienthi', 1609248686, 1673330930, 16, '', ''),
-(4, 1, 4, 'pxbotpg619vte84cqhpg-1165.png', 'giay-slip-on-ultraboost-23', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 23', 'SOUL-23', 550000, 400000, 4, 'noibat,hienthi', 1609248760, 1672801292, 9, '', ''),
-(5, 2, 5, 'v3mhzhih1rll4p8nndyd-6075.png', 'giay-slip-on-ultraboost-24', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 24', 'SOUL-24', 150000, 90000, 5, 'noibat,hienthi', 1609249040, 1672801302, 0, '', ''),
-(6, 2, 6, 'vlheobom76qfsuonryd1-8861.png', 'giay-slip-on-ultraboost-25', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 25', 'SOUL-25', 150000, 90000, 6, 'noibat,hienthi', 1609249099, 1672801310, 1, '', ''),
-(7, 2, 7, 'jpc1kzktrzrtpxgphryk-7564.png', 'giay-slip-on-ultraboost-26', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 26', 'SOUL-26', 300000, 100000, 7, 'noibat,hienthi', 1609249216, 1672801318, 1, '', ''),
-(8, 2, 1, '2ykpaet8l1swufbtbkve-5035.png', 'giay-slip-on-ultraboost-27', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 27', 'SOUL-27', 400000, 250000, 8, 'noibat,hienthi', 1609249283, 1672801328, 1, '', ''),
-(9, 0, 0, 'wallpaperflarecomwallpaper-1812.jpg', 'hinh-anh-giay-nike-air-max', '', '', 'Hình ảnh giày Nike Air Max', '', 0, 0, 1, 'hienthi', 1609287629, 1675745011, 27, '', ''),
-(10, 0, 0, 'wallpaperflarecomwallpaper-1-2925.jpg', 'hinh-anh-giay-nike-zoom', '', '', 'Hình ảnh giày Nike Zoom', '', 0, 0, 2, 'hienthi', 1609287653, 1675745020, 3, '', ''),
-(11, 0, 0, 'wallpaperflarecomwallpaper-2-1434.jpg', 'hinh-anh-giay-nike-air-force', '', '', 'Hình ảnh giày Nike Air Force', '', 0, 0, 3, 'hienthi', 1609287703, 1675745027, 0, '', ''),
-(13, 0, 0, 'wallpaperflarecomwallpaper-3-4847.jpg', 'hinh-anh-giay-nike-phantom', '', '', 'Hình ảnh giày Nike Phantom', '', 0, 0, 4, 'hienthi', 1609287738, 1675745033, 0, '', '');
+INSERT INTO `table_product` (`id`, `id_list`, `id_brand`, `photo`, `slug`, `content`, `desc`, `name`, `code`, `regular_price`, `sale_price`, `numb`, `view`, `status`, `date_created`, `date_updated`) VALUES
+(1, 1, 1, 'jpc1kzktrzrtpxgphryk-9520.png', 'giay-slip-on-ultraboost-20', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 20', 'SOUL-20', 350000, 250000, 1, 722, 'noibat,hienthi', 1609248457, 1676424711),
+(2, 1, 2, '2ykpaet8l1swufbtbkve-3614.png', 'giay-slip-on-ultraboost-21', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 21', 'SOUL-21', 450000, 300000, 2, 64, 'noibat,hienthi', 1609248594, 1675330809),
+(3, 1, 3, 'ban-xe-chevrolet-spark-2013-5321.png', 'giay-slip-on-ultraboost-22', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 22', 'SOUL-22', 250000, 150000, 3, 16, 'noibat,hienthi', 1609248686, 1673330930),
+(4, 1, 4, 'pxbotpg619vte84cqhpg-1165.png', 'giay-slip-on-ultraboost-23', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 23', 'SOUL-23', 550000, 400000, 4, 9, 'noibat,hienthi', 1609248760, 1672801292),
+(5, 2, 5, 'v3mhzhih1rll4p8nndyd-6075.png', 'giay-slip-on-ultraboost-24', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 24', 'SOUL-24', 150000, 90000, 5, 0, 'noibat,hienthi', 1609249040, 1672801302),
+(6, 2, 6, 'vlheobom76qfsuonryd1-8861.png', 'giay-slip-on-ultraboost-25', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 25', 'SOUL-25', 150000, 90000, 6, 1, 'noibat,hienthi', 1609249099, 1672801310),
+(7, 2, 7, 'jpc1kzktrzrtpxgphryk-7564.png', 'giay-slip-on-ultraboost-26', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 26', 'SOUL-26', 300000, 100000, 7, 1, 'noibat,hienthi', 1609249216, 1672801318),
+(8, 2, 1, '2ykpaet8l1swufbtbkve-5035.png', 'giay-slip-on-ultraboost-27', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 27', 'SOUL-27', 400000, 250000, 8, 1, 'noibat,hienthi', 1609249283, 1672801328),
+(9, NULL, NULL, 'wallpaperflarecomwallpaper-1812.jpg', 'hinh-anh-giay-nike-air-max', '', '', 'Hình ảnh giày Nike Air Max', '', 0, 0, 1, 27, 'hienthi', 1609287629, 1675745011),
+(10, NULL, NULL, 'wallpaperflarecomwallpaper-1-2925.jpg', 'hinh-anh-giay-nike-zoom', '', '', 'Hình ảnh giày Nike Zoom', '', 0, 0, 2, 3, 'hienthi', 1609287653, 1675745020),
+(11, NULL, NULL, 'wallpaperflarecomwallpaper-2-1434.jpg', 'hinh-anh-giay-nike-air-force', '', '', 'Hình ảnh giày Nike Air Force', '', 0, 0, 3, 0, 'hienthi', 1609287703, 1675745027),
+(13, NULL, NULL, 'wallpaperflarecomwallpaper-3-4847.jpg', 'hinh-anh-giay-nike-phantom', '', '', 'Hình ảnh giày Nike Phantom', '', 0, 0, 4, 0, 'hienthi', 1609287738, 1675745033);
 
 -- --------------------------------------------------------
 
@@ -4909,7 +4907,7 @@ CREATE TABLE `table_product_brand` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_product_brand`
@@ -4941,7 +4939,7 @@ CREATE TABLE `table_product_list` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_product_list`
@@ -4959,10 +4957,10 @@ INSERT INTO `table_product_list` (`id`, `slug`, `content`, `desc`, `name`, `phot
 
 CREATE TABLE `table_product_sale` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_parent` int(11) DEFAULT 0,
-  `id_color` int(11) DEFAULT 0,
-  `id_size` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id_parent` int(11) UNSIGNED DEFAULT NULL,
+  `id_color` int(11) UNSIGNED DEFAULT NULL,
+  `id_size` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4974,7 +4972,7 @@ CREATE TABLE `table_setting` (
   `id` int(11) NOT NULL,
   `options` mediumtext DEFAULT NULL,
   `namevi` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_setting`
@@ -4996,7 +4994,7 @@ CREATE TABLE `table_size` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_size`
@@ -5025,7 +5023,7 @@ CREATE TABLE `table_static` (
   `status` varchar(255) DEFAULT NULL,
   `date_created` int(11) DEFAULT 0,
   `date_updated` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_static`
@@ -5045,7 +5043,7 @@ INSERT INTO `table_static` (`id`, `photo`, `slug`, `content`, `desc`, `name`, `t
 
 CREATE TABLE `table_user` (
   `id` int(11) UNSIGNED NOT NULL,
-  `id_permission` int(11) DEFAULT 0,
+  `id_permission` int(11) UNSIGNED DEFAULT NULL,
   `username` varchar(225) DEFAULT NULL,
   `password` varchar(225) DEFAULT NULL,
   `confirm_code` varchar(255) DEFAULT NULL,
@@ -5059,17 +5057,16 @@ CREATE TABLE `table_user` (
   `user_token` varchar(255) DEFAULT NULL,
   `lastlogin` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `role` tinyint(1) DEFAULT 1,
   `birthday` int(11) DEFAULT 0,
   `numb` int(11) DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_user`
 --
 
-INSERT INTO `table_user` (`id`, `id_permission`, `username`, `password`, `confirm_code`, `avatar`, `fullname`, `phone`, `email`, `address`, `gender`, `login_session`, `user_token`, `lastlogin`, `status`, `role`, `birthday`, `numb`) VALUES
-(1, 0, 'admin', '713e68f601a5ad3d1265c2634f07b063', '', '', 'Administrator', '0939513667', 'admin@gmail.com', '222 huỳnh thị na', 1, 'd30de1dd805bcc6b6b6cdc0c10684115', '30a62a9cb44d8575ea94e8e93dd96a46', '1676424712', 'hienthi', 3, 1608051600, 0);
+INSERT INTO `table_user` (`id`, `id_permission`, `username`, `password`, `confirm_code`, `avatar`, `fullname`, `phone`, `email`, `address`, `gender`, `login_session`, `user_token`, `lastlogin`, `status`, `birthday`, `numb`) VALUES
+(1, 1, 'admin', '713e68f601a5ad3d1265c2634f07b063', '', '', 'Administrator', '0939513667', 'admin@gmail.com', '222 huỳnh thị na', 1, 'd30de1dd805bcc6b6b6cdc0c10684115', '30a62a9cb44d8575ea94e8e93dd96a46', '1676424712', 'hienthi', 1608051600, 0);
 
 -- --------------------------------------------------------
 
@@ -5106,7 +5103,7 @@ CREATE TABLE `table_ward` (
   `date_updated` int(11) DEFAULT 0,
   `date_created` int(11) DEFAULT 0,
   `ship_price` double DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `table_ward`
@@ -15753,7 +15750,8 @@ ALTER TABLE `table_color`
 -- Indexes for table `table_comment`
 --
 ALTER TABLE `table_comment`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comment_product` (`id_parent`);
 
 --
 -- Indexes for table `table_contact`
@@ -15771,13 +15769,15 @@ ALTER TABLE `table_counter`
 -- Indexes for table `table_district`
 --
 ALTER TABLE `table_district`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `district_city` (`id_city`);
 
 --
 -- Indexes for table `table_gallery`
 --
 ALTER TABLE `table_gallery`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gallery_product` (`id_parent`);
 
 --
 -- Indexes for table `table_news`
@@ -15789,13 +15789,18 @@ ALTER TABLE `table_news`
 -- Indexes for table `table_order`
 --
 ALTER TABLE `table_order`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_user` (`id_user`);
 
 --
 -- Indexes for table `table_order_detail`
 --
 ALTER TABLE `table_order_detail`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_detail_order` (`id_order`),
+  ADD KEY `order_detail_product` (`id_product`),
+  ADD KEY `order_detail_size` (`id_size`),
+  ADD KEY `order_detail_color` (`id_color`);
 
 --
 -- Indexes for table `table_permission_group`
@@ -15813,7 +15818,9 @@ ALTER TABLE `table_photo`
 -- Indexes for table `table_product`
 --
 ALTER TABLE `table_product`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_list` (`id_list`),
+  ADD KEY `product_brand` (`id_brand`);
 
 --
 -- Indexes for table `table_product_brand`
@@ -15831,7 +15838,10 @@ ALTER TABLE `table_product_list`
 -- Indexes for table `table_product_sale`
 --
 ALTER TABLE `table_product_sale`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_sale` (`id_parent`),
+  ADD KEY `size_sale` (`id_size`),
+  ADD KEY `color_sale` (`id_color`);
 
 --
 -- Indexes for table `table_setting`
@@ -15855,7 +15865,8 @@ ALTER TABLE `table_static`
 -- Indexes for table `table_user`
 --
 ALTER TABLE `table_user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_permission` (`id_permission`);
 
 --
 -- Indexes for table `table_variants`
@@ -15867,7 +15878,9 @@ ALTER TABLE `table_variants`
 -- Indexes for table `table_ward`
 --
 ALTER TABLE `table_ward`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ward_city` (`id_city`),
+  ADD KEY `ward_district` (`id_district`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -15937,7 +15950,7 @@ ALTER TABLE `table_order_detail`
 -- AUTO_INCREMENT for table `table_permission_group`
 --
 ALTER TABLE `table_permission_group`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `table_photo`
@@ -16004,6 +16017,71 @@ ALTER TABLE `table_variants`
 --
 ALTER TABLE `table_ward`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10600;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `table_comment`
+--
+ALTER TABLE `table_comment`
+  ADD CONSTRAINT `comment_product` FOREIGN KEY (`id_parent`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_district`
+--
+ALTER TABLE `table_district`
+  ADD CONSTRAINT `district_city` FOREIGN KEY (`id_city`) REFERENCES `table_city` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_gallery`
+--
+ALTER TABLE `table_gallery`
+  ADD CONSTRAINT `gallery_product` FOREIGN KEY (`id_parent`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_order`
+--
+ALTER TABLE `table_order`
+  ADD CONSTRAINT `order_user` FOREIGN KEY (`id_user`) REFERENCES `table_user` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_order_detail`
+--
+ALTER TABLE `table_order_detail`
+  ADD CONSTRAINT `order_detail_color` FOREIGN KEY (`id_color`) REFERENCES `table_color` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `order_detail_order` FOREIGN KEY (`id_order`) REFERENCES `table_order` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `order_detail_product` FOREIGN KEY (`id_product`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `order_detail_size` FOREIGN KEY (`id_size`) REFERENCES `table_size` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_product`
+--
+ALTER TABLE `table_product`
+  ADD CONSTRAINT `product_brand` FOREIGN KEY (`id_brand`) REFERENCES `table_product_brand` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `product_list` FOREIGN KEY (`id_list`) REFERENCES `table_product_list` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_product_sale`
+--
+ALTER TABLE `table_product_sale`
+  ADD CONSTRAINT `color_sale` FOREIGN KEY (`id_color`) REFERENCES `table_color` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `product_sale` FOREIGN KEY (`id_parent`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `size_sale` FOREIGN KEY (`id_size`) REFERENCES `table_size` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_user`
+--
+ALTER TABLE `table_user`
+  ADD CONSTRAINT `user_permission` FOREIGN KEY (`id_permission`) REFERENCES `table_permission_group` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_ward`
+--
+ALTER TABLE `table_ward`
+  ADD CONSTRAINT `ward_city` FOREIGN KEY (`id_city`) REFERENCES `table_city` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `ward_district` FOREIGN KEY (`id_district`) REFERENCES `table_district` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
