@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 09:15 AM
+-- Generation Time: Mar 07, 2023 at 11:01 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -4668,22 +4668,6 @@ CREATE TABLE `table_gallery` (
   `date_updated` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `table_gallery`
---
-
-INSERT INTO `table_gallery` (`id`, `id_parent`, `photo`, `name`, `numb`, `status`, `date_created`, `date_updated`) VALUES
-(27, 1, 'news-1-1102-4315.jpg', '', 1, '', 1609287029, 0),
-(28, 1, 'news-1-4178-4827.jpeg', '', 2, '', 1609287029, 0),
-(29, 1, 'news-3-4960-2676.jpg', '', 3, '', 1609287029, 0),
-(30, 1, 'news-2-1467-9982.jpg', '', 4, '', 1609287029, 0),
-(75, 1, '2ykpaet8l1swufbtbkve-3614-7531.png', '', 2, 'hienthi', 1675330849, 0),
-(76, 1, 'ban-xe-chevrolet-spark-2013-5321-6845.png', '', 3, 'hienthi', 1675330849, 0),
-(77, 1, 'jpc1kzktrzrtpxgphryk-7564-1921.png', '', 4, 'hienthi', 1675330849, 0),
-(78, 1, 'pxbotpg619vte84cqhpg-1165-5041.png', '', 5, 'hienthi', 1675330849, 0),
-(79, 1, 'v3mhzhih1rll4p8nndyd-6075-5502.png', '', 6, 'hienthi', 1675330849, 0),
-(80, 1, 'vlheobom76qfsuonryd1-8861-1463.png', '', 7, 'hienthi', 1675330849, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -4885,10 +4869,7 @@ INSERT INTO `table_product` (`id`, `id_list`, `id_brand`, `photo`, `slug`, `cont
 (6, 2, 6, 'vlheobom76qfsuonryd1-8861.png', 'giay-slip-on-ultraboost-25', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 25', 'SOUL-25', 150000, 90000, 6, 1, 'noibat,hienthi', 1609249099, 1672801310),
 (7, 2, 7, 'jpc1kzktrzrtpxgphryk-7564.png', 'giay-slip-on-ultraboost-26', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 26', 'SOUL-26', 300000, 100000, 7, 1, 'noibat,hienthi', 1609249216, 1672801318),
 (8, 2, 1, '2ykpaet8l1swufbtbkve-5035.png', 'giay-slip-on-ultraboost-27', '&lt;p&gt;Giày tây nam Đông Hải - G0702 với kiểu dáng Monkstrap là kiểu giày nam được quý ông yêu thích bởi sự lịch lãm, nam tính. Mang nét đặc trưng của Double Monkstrap, G0702 có thiết kế độc đáo với phần đóng mở bằng dây gài và 2 khóa kim loại vắt ngang qua phần thân giày. Được làm bằng chất liệu da bò cao cấp có độ co giãn vừa phải, form dáng phù hợp, cùng với lớp lót giày mềm mịn tạo cảm giác thoải mái, dễ chịu cho phái mạnh khi sử dụng. Giày tây nam G0702 mang phong cách sang trọng mà cổ điển phù hợp với môi trường công sở, hội họp và dự tiệc.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Mã sản phẩm: G0702&lt;/li&gt;\r\n	&lt;li&gt;Màu: Vàng, Đen&lt;/li&gt;\r\n	&lt;li&gt;Size: 38 - 43&lt;/li&gt;\r\n	&lt;li&gt;Chất liệu: Da bò&lt;/li&gt;\r\n&lt;/ul&gt;\r\n', 'Vội ra đường mà không có nhiều thời gian? Hãy xỏ chân vào đôi giày slip-on adidas Superstar này và dễ dàng tạo phong cách thanh lịch vào phút chót. \r\nThiết kế không dây trên thân giày kết hợp đai co giãn đậm chất thể thao ôm sát bàn chân cho độ vừa vặn thoải mái. Dù bạn đi đâu, dù phối với quần ống loe hay váy ngắn, đôi giày cũng sẽ giúp bạn nổi bật với phong cách hiện đại.', 'Giày Slip On Ultraboost 27', 'SOUL-27', 400000, 250000, 8, 1, 'noibat,hienthi', 1609249283, 1672801328),
-(9, NULL, NULL, 'wallpaperflarecomwallpaper-1812.jpg', 'hinh-anh-giay-nike-air-max', '', '', 'Hình ảnh giày Nike Air Max', '', 0, 0, 1, 27, 'hienthi', 1609287629, 1675745011),
-(10, NULL, NULL, 'wallpaperflarecomwallpaper-1-2925.jpg', 'hinh-anh-giay-nike-zoom', '', '', 'Hình ảnh giày Nike Zoom', '', 0, 0, 2, 3, 'hienthi', 1609287653, 1675745020),
-(11, NULL, NULL, 'wallpaperflarecomwallpaper-2-1434.jpg', 'hinh-anh-giay-nike-air-force', '', '', 'Hình ảnh giày Nike Air Force', '', 0, 0, 3, 0, 'hienthi', 1609287703, 1675745027),
-(13, NULL, NULL, 'wallpaperflarecomwallpaper-3-4847.jpg', 'hinh-anh-giay-nike-phantom', '', '', 'Hình ảnh giày Nike Phantom', '', 0, 0, 4, 0, 'hienthi', 1609287738, 1675745033);
+(66, 1, 1, 'avatar-5315.png', 'hoang-pham', 'Hoàng Phạm', 'Hoàng Phạm', 'Hoàng Phạm', 'asdqwe', 30000, 20000, 9, 0, 'hienthi', 1678182087, 1678183227);
 
 -- --------------------------------------------------------
 
@@ -4921,6 +4902,25 @@ INSERT INTO `table_product_brand` (`id`, `slug`, `content`, `desc`, `name`, `pho
 (5, 'reebook', '', '', 'Reebook', 'brand-5-3471-2234.jpg', 5, 'hienthi,noibat', 1609247727, 0),
 (6, 'new-balance', '', '', 'New balance', 'brand-6-8551-1039.jpg', 6, 'hienthi,noibat', 1609247786, 0),
 (7, 'puma', '', '', 'Puma', 'brand-7-2941-8624.jpg', 7, 'hienthi,noibat', 1609247805, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `table_product_color`
+--
+
+CREATE TABLE `table_product_color` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_product` int(10) UNSIGNED DEFAULT NULL,
+  `id_color` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `table_product_color`
+--
+
+INSERT INTO `table_product_color` (`id`, `id_product`, `id_color`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -4965,6 +4965,27 @@ CREATE TABLE `table_product_sale` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `table_product_size`
+--
+
+CREATE TABLE `table_product_size` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_product` int(10) UNSIGNED DEFAULT NULL,
+  `id_size` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `table_product_size`
+--
+
+INSERT INTO `table_product_size` (`id`, `id_product`, `id_size`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `table_setting`
 --
 
@@ -5001,8 +5022,8 @@ CREATE TABLE `table_size` (
 --
 
 INSERT INTO `table_size` (`id`, `name`, `numb`, `status`, `date_created`, `date_updated`) VALUES
-(1, 'M', 2, 'hienthi', 1609247908, 1616894255),
-(2, 'S', 1, 'hienthi', 1609247923, 0),
+(1, 'S', 2, 'hienthi', 1609247908, 1616894255),
+(2, 'M', 1, 'hienthi', 1609247923, 0),
 (3, 'L', 3, 'hienthi', 1609247931, 0),
 (4, 'XL', 4, 'hienthi', 1609247937, 0);
 
@@ -15829,6 +15850,14 @@ ALTER TABLE `table_product_brand`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `table_product_color`
+--
+ALTER TABLE `table_product_color`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_color` (`id_color`),
+  ADD KEY `product1` (`id_product`);
+
+--
 -- Indexes for table `table_product_list`
 --
 ALTER TABLE `table_product_list`
@@ -15842,6 +15871,14 @@ ALTER TABLE `table_product_sale`
   ADD KEY `product_sale` (`id_parent`),
   ADD KEY `size_sale` (`id_size`),
   ADD KEY `color_sale` (`id_color`);
+
+--
+-- Indexes for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_size` (`id_size`),
+  ADD KEY `product` (`id_product`);
 
 --
 -- Indexes for table `table_setting`
@@ -15962,13 +15999,19 @@ ALTER TABLE `table_photo`
 -- AUTO_INCREMENT for table `table_product`
 --
 ALTER TABLE `table_product`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `table_product_brand`
 --
 ALTER TABLE `table_product_brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `table_product_color`
+--
+ALTER TABLE `table_product_color`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `table_product_list`
@@ -15981,6 +16024,12 @@ ALTER TABLE `table_product_list`
 --
 ALTER TABLE `table_product_sale`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1545;
+
+--
+-- AUTO_INCREMENT for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `table_setting`
@@ -16063,12 +16112,26 @@ ALTER TABLE `table_product`
   ADD CONSTRAINT `product_list` FOREIGN KEY (`id_list`) REFERENCES `table_product_list` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
+-- Constraints for table `table_product_color`
+--
+ALTER TABLE `table_product_color`
+  ADD CONSTRAINT `product1` FOREIGN KEY (`id_product`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `product_color` FOREIGN KEY (`id_color`) REFERENCES `table_product_color` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
 -- Constraints for table `table_product_sale`
 --
 ALTER TABLE `table_product_sale`
   ADD CONSTRAINT `color_sale` FOREIGN KEY (`id_color`) REFERENCES `table_color` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `product_sale` FOREIGN KEY (`id_parent`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   ADD CONSTRAINT `size_sale` FOREIGN KEY (`id_size`) REFERENCES `table_size` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Constraints for table `table_product_size`
+--
+ALTER TABLE `table_product_size`
+  ADD CONSTRAINT `product` FOREIGN KEY (`id_product`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `product_size` FOREIGN KEY (`id_size`) REFERENCES `table_product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `table_user`

@@ -2,6 +2,7 @@
 session_start();
 define('LIBRARIES', './libraries/');
 define('TEMPLATE', './templates/');
+define('SITE_ROOT', __DIR__);
 
 /* Config */
 require_once LIBRARIES . "config.php";
