@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 $config = array(
     'database' => array(
         'server-name' => $_SERVER["SERVER_NAME"],
-        'url' => '/project/api/',
+        'url' => '/shop_shoes/client/',
         'type' => 'mysql',
         'host' => 'localhost',
         'username' => 'root',
@@ -40,5 +40,6 @@ $configUrl = $config['database']['server-name'] . $config['database']['url'];
 $configBase = $http . $configUrl;
 
 /* Cấu hình upload */
-require_once LIBRARIES . "constant.php";
+/* require_once LIBRARIES . "constant.php"; */
+include LIBRARIES . "upload.php";
 ?>

@@ -54,15 +54,14 @@ if (!empty($com)) {
 }
 
 switch ($com) {
-    case 'san-pham':
+    case 'product':
         $template = "product/product";
         $type = $com;
         break;
 
     case '':
     case 'index':
-        $source = "index";
-        $template = "index/index";
+        $template = "index";
         break;
     
     default:

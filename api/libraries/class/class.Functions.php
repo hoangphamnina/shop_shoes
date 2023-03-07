@@ -65,11 +65,11 @@ class Functions {
         return $output;
     }
     /* Kiểm tra dữ liệu nhập vào */
-    public function sanitize($input = '', $type = '')
+    public function checkInput($input = '', $type = '')
     {
         if (is_array($input)) {
             foreach ($input as $var => $val) {
-                $output[$var] = $this->sanitize($val, $type);
+                $output[$var] = $this->checkInput($val, $type);
             }
         } else {
             $output  = $this->cleanInput($input, $type);
@@ -122,9 +122,9 @@ class Functions {
             } else if ($_FILES[$file]['error'] == 0) {
                 return true;
             }
-        } else {
-            return false;
         }
+        
+        return false;
     }
     /* Upload name */
     public function uploadName($name = '')
@@ -180,4 +180,3 @@ class Functions {
         return false;
     }
 }
-?>

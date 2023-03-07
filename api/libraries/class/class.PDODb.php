@@ -1,152 +1,204 @@
 <?php
+
+/**
+ * PDODb Class
+ *
+ * @category  Database Access
+ * @package   PDODb
+ * @author    Jeffery Way <jeffrey@jeffrey-way.com>
+ * @author    Josh Campbell <jcampbell@ajillion.com>
+ * @author    Alexander V. Butenko <a.butenka@gmail.com>
+ * @author    Vasiliy A. Ulin <ulin.vasiliy@gmail.com>
+ * @copyright Copyright (c) 2010-2016
+ * @license   http://opensource.org/licenses/lgpl-3.0.html The GNU Lesser General Public License, version 3.0
+ * @link      http://github.com/joshcam/PHP-MySQLi-Database-Class
+ * @version   1.1.0
+ */
 class PDODb
 {
     /**
      * Database credentials
      * @var string
      */
-    private $connectionParams = ['type' => 'mysql', 'host' => null, 'username' => null, 'password' => null, 'dbname' => null, 'port' => null, 'charset' => null];
+    private $connectionParams = [
+        'type' => 'mysql',
+        'host' => null,
+        'username' => null,
+        'password' => null,
+        'dbname' => null,
+        'port' => null,
+        'charset' => null
+    ];
+
     /**
      * FOR UPDATE flag
      * @var bool
      */
-    private $_schema = array();
     private $forUpdate = false;
+
     /**
      * Dynamic type list for group by condition value
      * @var array
      */
     private $groupBy = [];
+
     /**
      * An array that holds having conditions
      * @var array
      */
     private $having = [];
+
     /**
      * Static instance of self
      * @var PDODb
      */
     private static $instance;
+
     /**
      * Is Subquery object
      * @var bool
      */
     private $isSubQuery = false;
+
     /**
      * An array that holds where joins
      * @var array
      */
     private $join = [];
+
     /**
      * Last error infromation
      * @var array
      */
     private $lastError = [];
+
     /**
      * Last error code
      * @var string
      */
     private $lastErrorCode = '';
+
     /**
      * Name of the auto increment column
      * @var string
      */
     private $lastInsertId = null;
+
     /**
      * The previously executed SQL query
      * @var string
      */
     private $lastQuery = '';
+
     /**
      * LOCK IN SHARE MODE flag
      * @var bool
      */
     private $lockInShareMode = false;
+
     /**
      * Should join() results be nested by table
      * @var bool
      */
     private $nestJoin = false;
+
     /**
      * Dynamic type list for order by condition value
      * @var array
      */
     private $orderBy = [];
+
     /**
      * Rows per 1 page on paginate() method
-     * @var int
+     * @var int 
      */
     private $pageLimit = 10;
+
     /**
      * Binded params
      * @var array
      */
     private $params = [];
+
     /**
      * PDO instance
      * @var PDO
      */
     private $pdo;
+
     /**
      * Database prefix
      * @var string
      */
     private $prefix = '';
+
     /**
      * Query string
-     * @var string
+     * @var string 
      */
     private $query = '';
+
     /**
      * The SQL query options required after SELECT, INSERT, UPDATE or DELETE
      * @var array
      */
     private $queryOptions = [];
+
     /**
      * Query type
      * @var string
      */
     private $queryType = '';
+
     /**
      * Type of returned result
      * @var string
      */
     private $returnType = PDO::FETCH_ASSOC;
+
     /**
      * Number of affected rows
-     * @var int
+     * @var int 
      */
     private $rowCount = 0;
+
     /**
      * Transaction flag
-     * @var bool
+     * @var bool 
      */
     private $transaction = false;
+
     /**
      * Variable which holds an amount of returned rows during get/getOne/select queries with withTotalCount()
      * @var int
      */
     public $totalCount = 0;
+
+
     /**
      * Total pages of paginate() method
      * @var int
      */
     public $totalPages = 0;
+
     /**
      * Column names for update when using onDuplicate method
      * @var array
      */
     protected $updateColumns = null;
+
     /**
      * Option to use generator (yield) on get() and rawQuery methods
      * @var bool
      */
     private $useGenerator = false;
+
     /**
      * An array that holds where conditions
      * @var array
      */
     private $where = [];
+
     /**
      * @param string|array|object $type
      * @param string $host
@@ -164,21 +216,24 @@ class PDODb
             $this->pdo = $type;
         } else {
             foreach ($this->connectionParams as $key => $param) {
-                if (isset($key) && !is_null($key)) {
-                    $this->connectionParams[$key] = $key;
+                if (isset($$key) && !is_null($$key)) {
+                    $this->connectionParams[$key] = $$key;
                 }
             }
         }
+
         if (isset($this->connectionParams['prefix'])) {
             $this->setPrefix($this->connectionParams['prefix']);
         }
+
         if (isset($this->connectionParams['isSubQuery'])) {
             $this->isSubQuery = true;
             return;
         }
+
         self::$instance = $this;
-        $this->getAllSchema();
     }
+
     /**
      * Abstraction method that will build the part of the WHERE conditions
      *
@@ -190,15 +245,18 @@ class PDODb
         if (empty($conditions)) {
             return;
         }
+
         //Prepare the where portion of the query
-        $this->query .= ' ' . $operator;
+        $this->query .= ' '.$operator;
+
         foreach ($conditions as $cond) {
-            list($concat, $varName, $operator, $val) = $cond;
-            $this->query .= " " . $concat . " " . $varName;
+            list ($concat, $varName, $operator, $val) = $cond;
+            $this->query .= " ".$concat." ".$varName;
+
             switch (strtolower($operator)) {
                 case 'not in':
                 case 'in':
-                    $comparison = ' ' . $operator . ' (';
+                    $comparison = ' '.$operator.' (';
                     if (is_object($val)) {
                         $comparison .= $this->buildPair("", $val);
                     } else {
@@ -207,7 +265,7 @@ class PDODb
                             $this->params[] = $v;
                         }
                     }
-                    $this->query .= rtrim($comparison, ',') . ' ) ';
+                    $this->query .= rtrim($comparison, ',').' ) ';
                     break;
                 case 'not between':
                 case 'between':
@@ -216,19 +274,20 @@ class PDODb
                     break;
                 case 'not exists':
                 case 'exists':
-                    $this->query .= $operator . $this->buildPair("", $val);
+                    $this->query.= $operator.$this->buildPair("", $val);
                     break;
                 default:
                     if (is_array($val)) {
                         $this->params = array_merge($this->params, $val);
                     } elseif ($val === null) {
-                        $this->query .= ' ' . $operator . " NULL";
+                        $this->query .= ' '.$operator." NULL";
                     } elseif ($val != 'DBNULL' || $val == '0') {
                         $this->query .= $this->buildPair($operator, $val);
                     }
             }
         }
     }
+
     /**
      * Insert/Update query helper
      *
@@ -241,33 +300,37 @@ class PDODb
     {
         foreach ($tableColumns as $column) {
             $value = $tableData[$column];
+
             if (!$isInsert) {
                 if (strpos($column, '.') === false) {
-                    $this->query .= "`" . $column . "` = ";
+                    $this->query .= "`".$column."` = ";
                 } else {
-                    $this->query .= str_replace('.', '.`', $column) . "` = ";
+                    $this->query .= str_replace('.', '.`', $column)."` = ";
                 }
             }
+
             // Subquery value
             if ($value instanceof PDODb) {
-                $this->query .= $this->buildPair("", $value) . ", ";
+                $this->query .= $this->buildPair("", $value).", ";
                 continue;
             }
+
             // Simple value
             if (!is_array($value)) {
                 $this->query .= '?, ';
                 $this->params[] = $value;
                 continue;
             }
+
             // Function value
             $key = key($value);
             $val = $value[$key];
             switch ($key) {
                 case '[I]':
-                    $this->query .= $column . $val . ", ";
+                    $this->query .= $column.$val.", ";
                     break;
                 case '[F]':
-                    $this->query .= $val[0] . ", ";
+                    $this->query .= $val[0].", ";
                     if (!empty($val[1])) {
                         foreach ($val[1] as $param) {
                             $this->params[] = $param;
@@ -276,17 +339,18 @@ class PDODb
                     break;
                 case '[N]':
                     if ($val == null) {
-                        $this->query .= "!" . $column . ", ";
+                        $this->query .= "!".$column.", ";
                     } else {
-                        $this->query .= "!" . $val . ", ";
+                        $this->query .= "!".$val.", ";
                     }
                     break;
                 default:
-                    die($this->sendException('Insert/Update Query', '***', 'Wrong operation', $this->query));
+                    throw new Exception("Wrong operation");
             }
         }
         $this->query = rtrim($this->query, ', ');
     }
+
     /**
      * Abstraction method that will build the GROUP BY part of the WHERE statement
      *
@@ -297,12 +361,16 @@ class PDODb
         if (empty($this->groupBy)) {
             return;
         }
+
         $this->query .= " GROUP BY ";
+
         foreach ($this->groupBy as $key => $value) {
-            $this->query .= $value . ", ";
+            $this->query .= $value.", ";
         }
-        $this->query = rtrim($this->query, ', ') . " ";
+
+        $this->query = rtrim($this->query, ', ')." ";
     }
+
     /**
      * Build insert query
      *
@@ -313,28 +381,22 @@ class PDODb
      */
     private function buildInsert($tableName, $insertData, $operation)
     {
-        $this->query = $operation . implode(' ', $this->queryOptions) . ' INTO ' . $this->getTableName($tableName);
-        $this->queryType = $operation;
-        $stmt = $this->buildQuery(null, $insertData);
-        $status = $stmt->execute();
-        $this->rowCount = $stmt->rowCount();
-        $this->lastError = $stmt->errorInfo();
+        $this->query         = $operation.implode(' ', $this->queryOptions).' INTO '.$this->getTableName($tableName);
+        $this->queryType     = $operation;
+        $stmt                = $this->buildQuery(null, $insertData);
+        $status              = $stmt->execute();
+        $this->rowCount      = $stmt->rowCount();
+        $this->lastError     = $stmt->errorInfo();
         $this->lastErrorCode = $stmt->errorCode();
-
-        if ($this->lastError[1] > 0) {
-            die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-        }
-
         $this->reset();
-        if (
-            $status && $this->pdo()
-            ->lastInsertId() > 0
-        ) {
-            return (int)$this->pdo()
-                ->lastInsertId();
+
+        if ($status && $this->pdo()->lastInsertId() > 0) {
+            return (int) $this->pdo()->lastInsertId();
         }
+
         return $status;
     }
+
     /**
      * Abstraction method that will build the LIMIT part of the WHERE statement
      *
@@ -347,12 +409,14 @@ class PDODb
         if (!isset($numRows)) {
             return;
         }
+
         if (is_array($numRows)) {
-            $this->query .= ' LIMIT ' . (int)$numRows[0] . ', ' . (int)$numRows[1];
+            $this->query .= ' LIMIT '.(int) $numRows[0].', '.(int) $numRows[1];
         } else {
-            $this->query .= ' LIMIT ' . (int)$numRows;
+            $this->query .= ' LIMIT '.(int) $numRows;
         }
     }
+
     /**
      * Abstraction method that will build an INSERT or UPDATE part of the query
      *
@@ -364,19 +428,24 @@ class PDODb
         if (!is_array($tableData)) {
             return;
         }
-        $isInsert = in_array($this->queryType, ['REPLACE', 'INSERT']);
+
+        $isInsert    = in_array($this->queryType, ['REPLACE', 'INSERT']);
         $dataColumns = array_keys($tableData);
         if ($isInsert) {
-            if (isset($dataColumns[0])) $this->query .= ' (`' . implode('`, `', $dataColumns) . '`) ';
+            if (isset($dataColumns[0])) $this->query .= ' (`'.implode('`, `', $dataColumns).'`) ';
             $this->query .= ' VALUES (';
         } else {
             $this->query .= " SET ";
         }
+
         $this->buildDataPairs($tableData, $dataColumns, $isInsert);
+
+
         if ($isInsert) {
             $this->query .= ')';
         }
     }
+
     /**
      * Abstraction method that will build an JOIN part of the query
      *
@@ -387,16 +456,22 @@ class PDODb
         if (empty($this->join)) {
             return;
         }
+
         foreach ($this->join as $data) {
-            list($joinType, $joinTable, $joinCondition) = $data;
+            list ($joinType, $joinTable, $joinCondition) = $data;
+
             if (is_object($joinTable)) {
                 $joinStr = $this->buildPair("", $joinTable);
             } else {
                 $joinStr = $joinTable;
             }
-            $this->query .= " " . $joinType . " JOIN " . $joinStr . (false !== stripos($joinCondition, 'using') ? " " : " ON ") . $joinCondition;
+
+            $this->query .= " ".$joinType." JOIN ".$joinStr.
+                (false !== stripos($joinCondition, 'using') ? " " : " ON ")
+                .$joinCondition;
         }
     }
+
     /**
      * Abstraction method that will build the LIMIT part of the WHERE statement
      *
@@ -409,12 +484,14 @@ class PDODb
         if (!isset($numRows)) {
             return;
         }
+
         if (is_array($numRows)) {
-            $this->query .= ' LIMIT ' . (int)$numRows[0] . ', ' . (int)$numRows[1];
+            $this->query .= ' LIMIT '.(int) $numRows[0].', '.(int) $numRows[1];
         } else {
-            $this->query .= ' LIMIT ' . (int)$numRows;
+            $this->query .= ' LIMIT '.(int) $numRows;
         }
     }
+
     /**
      * Helper function to add variables into the query statement
      *
@@ -425,8 +502,9 @@ class PDODb
         if (is_array($this->updateColumns) && !empty($this->updateColumns)) {
             $this->query .= " ON DUPLICATE KEY UPDATE ";
             if ($this->lastInsertId) {
-                $this->query .= $this->lastInsertId . "=LAST_INSERT_ID (" . $this->lastInsertId . "), ";
+                $this->query .= $this->lastInsertId."=LAST_INSERT_ID (".$this->lastInsertId."), ";
             }
+
             foreach ($this->updateColumns as $key => $val) {
                 // skip all params without a value
                 if (is_numeric($key)) {
@@ -439,6 +517,7 @@ class PDODb
             $this->buildDataPairs($tableData, array_keys($this->updateColumns), false);
         }
     }
+
     /**
      * Abstraction method that will build the LIMIT part of the WHERE statement
      *
@@ -449,16 +528,19 @@ class PDODb
         if (empty($this->orderBy)) {
             return;
         }
+
         $this->query .= " ORDER BY ";
         foreach ($this->orderBy as $prop => $value) {
             if (strtolower(str_replace(" ", "", $prop)) == 'rand()') {
                 $this->query .= "RAND(), ";
             } else {
-                $this->query .= $prop . " " . $value . ", ";
+                $this->query .= $prop." ".$value.", ";
             }
         }
-        $this->query = rtrim($this->query, ', ') . " ";
+
+        $this->query = rtrim($this->query, ', ')." ";
     }
+
     /**
      * Helper function to add variables into bind parameters array and will return
      * its SQL part of the query according to operator in ' $operator ?' or
@@ -472,14 +554,17 @@ class PDODb
     {
         if (!is_object($value)) {
             $this->params[] = $value;
-            return ' ' . $operator . ' ? ';
+            return ' '.$operator.' ? ';
         }
+
         $subQuery = $value->getSubQuery();
         foreach ($subQuery['params'] as $value) {
             $this->params[] = $value;
         }
-        return " " . $operator . " (" . $subQuery['query'] . ") " . $subQuery['alias'];
+
+        return " ".$operator." (".$subQuery['query'].") ".$subQuery['alias'];
     }
+
     /**
      * Abstraction method that will compile the WHERE statement,
      * any passed update data, and the desired rows.
@@ -500,14 +585,17 @@ class PDODb
         $this->buildOrderBy();
         $this->buildLimit($numRows);
         $this->buildOnDuplicate($tableData);
+
         if ($this->isSubQuery) {
             return;
         }
+
         return $this->prepare();
     }
+
     /**
      * Return query result
-     *
+     * 
      * @param PDOStatement $stmt
      * @return array
      */
@@ -519,6 +607,7 @@ class PDODb
             return $stmt->fetchAll($this->returnType);
         }
     }
+
     /**
      * Return generator object
      * @param PDOStatement $stmt
@@ -530,6 +619,7 @@ class PDODb
             yield $row;
         }
     }
+
     /**
      * Shutdown handler to rollback uncommited operations in order to keep
      * atomic operations sane.
@@ -543,6 +633,7 @@ class PDODb
         }
         $this->rollback();
     }
+
     /**
      * Transaction commit
      *
@@ -551,11 +642,11 @@ class PDODb
      */
     public function commit()
     {
-        $result = $this->pdo()
-            ->commit();
+        $result            = $this->pdo()->commit();
         $this->transaction = false;
         return $result;
     }
+
     /**
      * A method to connect to the database
      *
@@ -564,23 +655,23 @@ class PDODb
      */
     public function connect()
     {
-        try {
-            if (empty($this->connectionParams['type'])) {
-                die($this->sendException('Database Connect', '***', 'DB Type is not set', '***'));
-            }
-            $connectionString = $this->connectionParams['type'] . ':';
-            $connectionParams = ['host', 'dbname', 'port', 'charset'];
-            foreach ($connectionParams as $connectionParam) {
-                if (!empty($this->connectionParams[$connectionParam])) {
-                    $connectionString .= $connectionParam . '=' . $this->connectionParams[$connectionParam] . ';';
-                }
-            }
-            $connectionString = rtrim($connectionString, ';');
-            $this->pdo = new PDO($connectionString, $this->connectionParams['username'], $this->connectionParams['password']);
-        } catch (Exception $e) {
-            die($this->sendException('Database Connection Failed', 1049, $e->getMessage(), ''));
+        if (empty($this->connectionParams['type'])) {
+            throw new Exception('DB Type is not set.');
         }
+
+        $connectionString = $this->connectionParams['type'].':';
+        $connectionParams = ['host', 'dbname', 'port', 'charset'];
+
+        foreach ($connectionParams as $connectionParam) {
+            if (!empty($this->connectionParams[$connectionParam])) {
+                $connectionString .= $connectionParam.'='.$this->connectionParams[$connectionParam].';';
+            }
+        }
+
+        $connectionString = rtrim($connectionString, ';');
+        $this->pdo        = new PDO($connectionString, $this->connectionParams['username'], $this->connectionParams['password']);
     }
+
     /**
      * Method returns a copy of a PDODb subquery object
      *
@@ -588,10 +679,11 @@ class PDODb
      */
     public function copy()
     {
-        $copy = clone $this;
+        $copy      = clone $this;
         $copy->pdo = null;
         return $copy;
     }
+
     /**
      * Method generates decrimental function call
      *
@@ -601,12 +693,11 @@ class PDODb
     public function dec($num = 1)
     {
         if (!is_numeric($num)) {
-            die($this->sendException('Generates Decrimental', '***', 'Argument supplied to dec must be a number', '***'));
+            throw new Exception('Argument supplied to dec must be a number');
         }
-        return array(
-            "[I]" => "-" . $num
-        );
+        return array("[I]" => "-".$num);
     }
+
     /**
      * Delete query. Call the "where" method first.
      *
@@ -620,25 +711,25 @@ class PDODb
         if ($this->isSubQuery) {
             return;
         }
-        $table = $this->prefix . $tableName;
+
+        $table = $this->prefix.$tableName;
+
         if (count($this->join)) {
-            $this->query = "DELETE " . preg_replace('/.* (.*)/', '$1', $table) . " FROM " . $table;
+            $this->query = "DELETE ".preg_replace('/.* (.*)/', '$1', $table)." FROM ".$table;
         } else {
-            $this->query = "DELETE FROM " . $table;
+            $this->query = "DELETE FROM ".$table;
         }
-        $stmt = $this->buildQuery($numRows);
+
+        $stmt                = $this->buildQuery($numRows);
         $stmt->execute();
-        $this->lastError = $stmt->errorInfo();
+        $this->lastError     = $stmt->errorInfo();
         $this->lastErrorCode = $stmt->errorCode();
-
-        if ($this->lastError[1] > 0) {
-            die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-        }
-
-        $this->rowCount = $stmt->rowCount();
+        $this->rowCount      = $stmt->rowCount();
         $this->reset();
+
         return ($this->rowCount > 0);
     }
+
     /**
      * This method is needed for prepared statements. They require
      * the data type of the field to be bound with "i" s", etc.
@@ -667,6 +758,7 @@ class PDODb
                 return PDO::PARAM_STR;
         }
     }
+
     /**
      * A method of returning the static instance to allow access to the
      * instantiated object from within another class.
@@ -679,6 +771,7 @@ class PDODb
     {
         return self::$instance;
     }
+
     /**
      * Method returns db error
      *
@@ -689,8 +782,10 @@ class PDODb
         if (!$this->pdo) {
             return "pdo is null";
         }
+
         return $this->lastError;
     }
+
     /**
      * Method returns db error code
      *
@@ -700,6 +795,7 @@ class PDODb
     {
         return $this->lastErrorCode;
     }
+
     /**
      * Get last insert id
      *
@@ -707,9 +803,9 @@ class PDODb
      */
     public function getLastInsertId()
     {
-        return $this->pdo()
-            ->lastInsertId();
+        return $this->pdo()->lastInsertId();
     }
+
     /**
      * Method returns last executed query
      *
@@ -719,6 +815,7 @@ class PDODb
     {
         return $this->lastQuery;
     }
+
     /**
      * Method returns params
      *
@@ -728,6 +825,7 @@ class PDODb
     {
         return $this->params;
     }
+
     /**
      * Get count of affected rows
      *
@@ -737,6 +835,7 @@ class PDODb
     {
         return $this->rowCount;
     }
+
     /**
      * Mostly internal method to get query and its params out of subquery object
      * after get() and getAll()
@@ -748,20 +847,26 @@ class PDODb
         if (!$this->isSubQuery) {
             return null;
         }
-        $val = ['query' => $this->query, 'params' => $this->params, 'alias' => $this->connectionParams['host']];
+
+        $val = ['query' => $this->query,
+            'params' => $this->params,
+            'alias' => $this->connectionParams['host']
+        ];
         $this->reset();
         return $val;
     }
+
     /**
      * Get table name with prefix
-     *
+     * 
      * @param string $tableName
      * @return string
      */
     private function getTableName($tableName)
     {
-        return strpos($tableName, '.') !== false ? $tableName : $this->prefix . $tableName;
+        return strpos($tableName, '.') !== false ? $tableName : $this->prefix.$tableName;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) GROUP BY statements for SQL queries.
      *
@@ -771,10 +876,11 @@ class PDODb
      */
     public function groupBy($groupByField)
     {
-        $groupByField = preg_replace("/[^-a-z0-9\.\(\),_\*]+/i", '', $groupByField);
+        $groupByField    = preg_replace("/[^-a-z0-9\.\(\),_\*]+/i", '', $groupByField);
         $this->groupBy[] = $groupByField;
         return $this;
     }
+
     /**
      * A convenient function that returns TRUE if exists at least an element that
      * satisfy the where condition specified calling the "where" method before this one.
@@ -788,6 +894,7 @@ class PDODb
         $result = $this->getOne($tableName);
         return $result ? true : false;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) AND HAVING statements for SQL queries.
      *
@@ -801,20 +908,18 @@ class PDODb
     {
         // forkaround for an old operation api
         if (is_array($havingValue) && ($key = key($havingValue)) != "0") {
-            $operator = $key;
+            $operator    = $key;
             $havingValue = $havingValue[$key];
         }
+
         if (count($this->having) == 0) {
             $cond = '';
         }
-        $this->having[] = array(
-            $cond,
-            $havingProp,
-            $operator,
-            $havingValue
-        );
+
+        $this->having[] = array($cond, $havingProp, $operator, $havingValue);
         return $this;
     }
+
     /**
      * Escape harmful characters which might affect a query.
      *
@@ -823,9 +928,9 @@ class PDODb
      */
     public function escape($value)
     {
-        return $this->pdo()
-            ->quote($value, $this->determineType($value));
+        return $this->pdo()->quote($value, $this->determineType($value));
     }
+
     /**
      * Method generates user defined function call
      *
@@ -837,6 +942,7 @@ class PDODb
     {
         return ["[F]" => [$expr, $bindParams]];
     }
+
     /**
      * A convenient SELECT * function.
      *
@@ -851,30 +957,33 @@ class PDODb
         if (empty($columns)) {
             $columns = '*';
         }
+
         $column = is_array($columns) ? implode(', ', $columns) : $columns;
-        $this->query = 'SELECT ' . implode(' ', $this->queryOptions) . ' ' . $column . " FROM " . $this->getTableName($tableName);
-        $stmt = $this->buildQuery($numRows);
+
+        $this->query = 'SELECT '.implode(' ', $this->queryOptions).' '.
+            $column." FROM ".$this->getTableName($tableName);
+        $stmt        = $this->buildQuery($numRows);
+
         if ($this->isSubQuery) {
             return $this;
         }
+
         $stmt->execute();
-        $this->lastError = $stmt->errorInfo();
+        $this->lastError     = $stmt->errorInfo();
         $this->lastErrorCode = $stmt->errorCode();
+        $this->rowCount      = $stmt->rowCount();
 
-        if ($this->lastError[1] > 0) {
-            die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-        }
-
-        $this->rowCount = $stmt->rowCount();
         if (in_array('SQL_CALC_FOUND_ROWS', $this->queryOptions)) {
-            $totalStmt = $this->pdo()
-                ->query('SELECT FOUND_ROWS()');
+            $totalStmt        = $this->pdo()->query('SELECT FOUND_ROWS()');
             $this->totalCount = $totalStmt->fetchColumn();
         }
+
         $result = $this->buildResult($stmt);
         $this->reset();
+
         return $result;
     }
+
     /**
      * A convenient SELECT * function to get one record.
      *
@@ -885,15 +994,18 @@ class PDODb
     public function getOne($tableName, $columns = '*')
     {
         $result = $this->get($tableName, 1, $columns);
+
         if ($result instanceof PDODb) {
             return $result;
         }
+
         if ($this->useGenerator) {
             return $result->current() ? $result->current() : false;
         } else {
             return $result ? $result[0] : false;
         }
     }
+
     /**
      * A convenient SELECT COLUMN function to get a single column value from one row
      *
@@ -904,18 +1016,21 @@ class PDODb
      */
     public function getValue($tableName, $column, $limit = 1)
     {
-        $result = $this->setReturnType(PDO::FETCH_ASSOC)
-            ->get($tableName, $limit, "{$column} AS retval");
+        $result = $this->setReturnType(PDO::FETCH_ASSOC)->get($tableName, $limit, "{$column} AS retval");
+
         if (!$result) {
             return null;
         }
+
         if ($limit == 1) {
             $current = $result[0];
+
             if (isset($current["retval"])) {
                 return $current["retval"];
             }
             return null;
         }
+
         $newRes = [];
         foreach ($result as $current) {
             if (is_int($limit) && $limit-- <= 0) {
@@ -925,6 +1040,7 @@ class PDODb
         }
         return $newRes;
     }
+
     /**
      * Method generates incremental function call
      *
@@ -935,22 +1051,23 @@ class PDODb
     public function inc($num = 1)
     {
         if (!is_numeric($num)) {
-            die($this->sendException('Generates Incremental', '***', 'Argument supplied to inc must be a number', '***'));
+            throw new Exception('Argument supplied to inc must be a number');
         }
-        return ["[I]" => "+" . $num];
+        return ["[I]" => "+".$num];
     }
+
     /**
      * Perform insert query
-     *
+     * 
      * @param string $tableName
      * @param array $insertData
      * @return int
      */
     public function insert($tableName, $insertData)
     {
-        $this->fillTable($this->getTableName($tableName), $insertData);
         return $this->buildInsert($tableName, $insertData, 'INSERT');
     }
+
     /**
      * Method returns generated interval function as a string
      *
@@ -964,26 +1081,32 @@ class PDODb
     public function interval($diff, $func = "NOW()")
     {
         $types = ["s" => "second", "m" => "minute", "h" => "hour", "d" => "day", "M" => "month", "Y" => "year"];
-        $incr = '+';
+        $incr  = '+';
         $items = '';
-        $type = 'd';
+        $type  = 'd';
+
         if ($diff && preg_match('/([+-]?) ?([0-9]+) ?([a-zA-Z]?)/', $diff, $matches)) {
             if (!empty($matches[1])) {
                 $incr = $matches[1];
             }
+
             if (!empty($matches[2])) {
                 $items = $matches[2];
             }
+
             if (!empty($matches[3])) {
                 $type = $matches[3];
             }
+
             if (!in_array($type, array_keys($types))) {
-                die($this->sendException('Generated Interval', '***', "invalid interval type in '{$diff}'", '***'));
+                throw new Exception("invalid interval type in '{$diff}'");
             }
-            $func .= " " . $incr . " interval " . $items . " " . $types[$type] . " ";
+
+            $func .= " ".$incr." interval ".$items." ".$types[$type]." ";
         }
         return $func;
     }
+
     /**
      * This method allows you to concatenate joins for the final SQL statement.
      *
@@ -996,24 +1119,22 @@ class PDODb
      */
     public function join($joinTable, $joinCondition, $joinType = '')
     {
-        $allowedTypes = array(
-            'LEFT',
-            'RIGHT',
-            'OUTER',
-            'INNER',
-            'LEFT OUTER',
-            'RIGHT OUTER'
-        );
-        $joinType = strtoupper(trim($joinType));
+        $allowedTypes = array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER');
+        $joinType     = strtoupper(trim($joinType));
+
         if ($joinType && !in_array($joinType, $allowedTypes)) {
-            die($this->sendException('Concatenate Joins For The Final SQL Statement', '***', 'Wrong JOIN type: ' . $joinType, '***'));
+            throw new Exception('Wrong JOIN type: '.$joinType);
         }
+
         if (!is_object($joinTable)) {
-            $joinTable = $this->prefix . $joinTable;
+            $joinTable = $this->prefix.$joinTable;
         }
+
         $this->join[] = [$joinType, $joinTable, $joinCondition];
+
         return $this;
     }
+
     /**
      * Method generates change boolean function call
      *
@@ -1022,8 +1143,9 @@ class PDODb
      */
     public function not($col = null)
     {
-        return ["[N]" => (string)$col];
+        return ["[N]" => (string) $col];
     }
+
     /**
      * Method returns generated interval function as an insert/update function
      *
@@ -1038,6 +1160,7 @@ class PDODb
     {
         return ["[F]" => [$this->interval($diff, $func)]];
     }
+
     /**
      * This function store update column's name and column name of the
      * autoincrement column
@@ -1048,10 +1171,11 @@ class PDODb
      */
     public function onDuplicate($updateColumns, $lastInsertId = null)
     {
-        $this->lastInsertId = $lastInsertId;
+        $this->lastInsertId  = $lastInsertId;
         $this->updateColumns = $updateColumns;
         return $this;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) ORDER BY statements for SQL queries.
      *
@@ -1066,23 +1190,30 @@ class PDODb
     {
         $allowedDirection = ["ASC", "DESC"];
         $orderbyDirection = strtoupper(trim($orderbyDirection));
-        $orderByField = preg_replace("/[^-a-z0-9\.\(\),_`\*\'\"]+/i", '', $orderByField);
+        $orderByField     = preg_replace("/[^-a-z0-9\.\(\),_`\*\'\"]+/i", '', $orderByField);
+
         // Add table prefix to orderByField if needed.
         //FIXME: We are adding prefix only if table is enclosed into `` to distinguish aliases
         // from table names
-        $orderByField = preg_replace('/(\`)([`a-zA-Z0-9_]*\.)/', '\1' . $this->prefix . '\2', $orderByField);
+        $orderByField = preg_replace('/(\`)([`a-zA-Z0-9_]*\.)/', '\1'.$this->prefix.'\2', $orderByField);
+
+
         if (empty($orderbyDirection) || !in_array($orderbyDirection, $allowedDirection)) {
-            die($this->sendException('Specify Multiple ORDER BY Statements For SQL Queries', '***', 'Wrong order direction: ' . $orderbyDirection, '***'));
+            throw new Exception('Wrong order direction: '.$orderbyDirection);
         }
+
         if (is_array($customFields)) {
             foreach ($customFields as $key => $value) {
                 $customFields[$key] = preg_replace("/[^-a-z0-9\.\(\),_` ]+/i", '', $value);
             }
-            $orderByField = 'FIELD (' . $orderByField . ', "' . implode('","', $customFields) . '")';
+
+            $orderByField = 'FIELD ('.$orderByField.', "'.implode('","', $customFields).'")';
         }
+
         $this->orderBy[$orderByField] = $orderbyDirection;
         return $this;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) OR HAVING statements for SQL queries.
      *
@@ -1096,6 +1227,7 @@ class PDODb
     {
         return $this->having($havingProp, $havingValue, $operator, 'OR');
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) OR WHERE statements for SQL queries.
      *
@@ -1109,6 +1241,7 @@ class PDODb
     {
         return $this->where($whereProp, $whereValue, $operator, 'OR');
     }
+
     /**
      * Pagination wraper to get()
      *
@@ -1120,12 +1253,12 @@ class PDODb
      */
     public function paginate($table, $page, $fields = null)
     {
-        $offset = $this->pageLimit * ($page - 1);
-        $res = $this->withTotalCount()
-            ->get($table, [$offset, $this->pageLimit], $fields);
+        $offset           = $this->pageLimit * ($page - 1);
+        $res              = $this->withTotalCount()->get($table, [$offset, $this->pageLimit], $fields);
         $this->totalPages = ceil($this->totalCount / $this->pageLimit);
         return $res;
     }
+
     /**
      * A method to get pdo object or create it in case needed
      *
@@ -1136,11 +1269,14 @@ class PDODb
         if (!$this->pdo) {
             $this->connect();
         }
+
         if (!$this->pdo) {
-            die($this->sendException('Database Connect', '***', 'Cannot connect to db', '***'));
+            throw new Exception('Cannot connect to db');
         }
+
         return $this->pdo;
     }
+
     /**
      * Prepare DB query
      *
@@ -1148,34 +1284,29 @@ class PDODb
      */
     private function prepare()
     {
-        $stmt = $this->pdo()
-            ->prepare($this->query);
+        $stmt            = $this->pdo()->prepare($this->query);
         $this->lastQuery = $this->query;
+
         if (!$stmt instanceof PDOStatement) {
-            $this->lastErrorCode = $this->pdo()
-                ->errorCode();
-            $this->lastError = $this->pdo()
-                ->errorInfo();
-
-            if ($this->lastError[1] > 0) {
-                die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-            }
-
+            $this->lastErrorCode = $this->pdo()->errorCode();
+            $this->lastError     = $this->pdo()->errorInfo();
             return null;
         }
+
         foreach ($this->params as $key => $value) {
-            $stmt->bindValue(is_int($key) ? $key + 1 : ':' . $key, $value, $this->determineType($value));
+            $stmt->bindValue(is_int($key) ? $key + 1 : ':'.$key, $value, $this->determineType($value));
         }
+
         return $stmt;
     }
+
     /**
      * Perform db query
-     *
+     * 
      * @param string $query
      * @param array $params
      * @return array
      */
-
     public function rawQuery($query, $params = null)
     {
         $this->query = $query;
@@ -1185,26 +1316,19 @@ class PDODb
         $stmt = $this->prepare();
         if ($stmt) {
             $stmt->execute();
-            $this->lastError = $stmt->errorInfo();
+            $this->lastError     = $stmt->errorInfo();
             $this->lastErrorCode = $stmt->errorCode();
-
-            if ($this->lastError[1] > 0) {
-                die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-            }
-
-            $result = $this->buildResult($stmt);
+            $result              = $this->buildResult($stmt);
         } else {
             $result = null;
-        }
-        if (strpos($this->query, 'delete') !== false) {
-            $queryLogs = $this->insertParamsLogs($this->query, $params);
         }
         $this->reset();
         return $result;
     }
+
     /**
      * Perform db query and return only one row
-     *
+     * 
      * @param string $query
      * @param array $params
      * @return array
@@ -1212,12 +1336,14 @@ class PDODb
     public function rawQueryOne($query, $params = null)
     {
         $result = $this->rawQuery($query, $params);
+
         if ($this->useGenerator) {
             return $result->current() ? $result->current() : false;
         } else {
             return $result ? $result[0] : false;
         }
     }
+
     /**
      * Helper function to execute raw SQL query and return only 1 column of results.
      * If 'limit 1' will be found, then string will be returned instead of array
@@ -1230,27 +1356,33 @@ class PDODb
     public function rawQueryValue($query, $params = null)
     {
         $result = $this->rawQuery($query, $params);
+
         if ($this->useGenerator && !$result->current()) {
             return null;
         } else if (!$this->useGenerator && !$result) {
             return null;
-        }
+        }        
+
         if ($this->useGenerator) {
             $firstResult = $result->current();
         } else {
             $firstResult = $result[0];
         }
+
         $key = key($firstResult);
+
         $limit = preg_match('/limit\s+1;?$/i', $query);
         if ($limit == true) {
             return isset($firstResult[$key]) ? $firstResult[$key] : null;
         }
+
         $return = [];
         foreach ($result as $row) {
             $return[] = $row[$key];
         }
         return $return;
     }
+
     /**
      * Perform insert query
      *
@@ -1262,27 +1394,29 @@ class PDODb
     {
         return $this->buildInsert($tableName, $insertData, 'REPLACE');
     }
+
     /**
      * Reset PDODb internal variables
      */
     private function reset()
     {
-        $this->forUpdate = false;
-        $this->groupBy = [];
-        $this->having = [];
-        $this->join = [];
-        $this->lastInsertId = "";
+        $this->forUpdate       = false;
+        $this->groupBy         = [];
+        $this->having          = [];
+        $this->join            = [];
+        $this->lastInsertId    = "";
         $this->lockInShareMode = false;
-        $this->nestJoin = false;
-        $this->orderBy = [];
-        $this->params = [];
-        $this->query = '';
-        $this->queryOptions = [];
-        $this->queryType = '';
-        $this->rowCount = 0;
-        $this->updateColumns = [];
-        $this->where = [];
+        $this->nestJoin        = false;
+        $this->orderBy         = [];
+        $this->params          = [];
+        $this->query           = '';
+        $this->queryOptions    = [];
+        $this->queryType       = '';
+        $this->rowCount        = 0;
+        $this->updateColumns   = [];
+        $this->where           = [];
     }
+
     /**
      * Transaction rollback function
      *
@@ -1291,11 +1425,11 @@ class PDODb
      */
     public function rollback()
     {
-        $result = $this->pdo()
-            ->rollback();
+        $result            = $this->pdo()->rollback();
         $this->transaction = false;
         return $result;
     }
+
     /**
      * Set row limit per 1 page
      * @param int $limit
@@ -1306,6 +1440,7 @@ class PDODb
         $this->pageLimit = $limit;
         return $this;
     }
+
     /**
      * Method to set a prefix
      *
@@ -1317,6 +1452,7 @@ class PDODb
         $this->prefix = $prefix;
         return $this;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) options for SQL queries.
      *
@@ -1327,15 +1463,20 @@ class PDODb
      */
     public function setQueryOption($options)
     {
-        $allowedOptions = ['ALL', 'DISTINCT', 'DISTINCTROW', 'HIGH_PRIORITY', 'STRAIGHT_JOIN', 'SQL_SMALL_RESULT', 'SQL_BIG_RESULT', 'SQL_BUFFER_RESULT', 'SQL_CACHE', 'SQL_NO_CACHE', 'SQL_CALC_FOUND_ROWS', 'LOW_PRIORITY', 'IGNORE', 'QUICK', 'MYSQLI_NESTJOIN', 'FOR UPDATE', 'LOCK IN SHARE MODE'];
+        $allowedOptions = ['ALL', 'DISTINCT', 'DISTINCTROW', 'HIGH_PRIORITY', 'STRAIGHT_JOIN', 'SQL_SMALL_RESULT',
+            'SQL_BIG_RESULT', 'SQL_BUFFER_RESULT', 'SQL_CACHE', 'SQL_NO_CACHE', 'SQL_CALC_FOUND_ROWS',
+            'LOW_PRIORITY', 'IGNORE', 'QUICK', 'MYSQLI_NESTJOIN', 'FOR UPDATE', 'LOCK IN SHARE MODE'];
+
         if (!is_array($options)) {
             $options = [$options];
         }
+
         foreach ($options as $option) {
             $option = strtoupper($option);
             if (!in_array($option, $allowedOptions)) {
-                die($this->sendException('Specify Multiple Options For SQL Queries', '***', 'Wrong query option: ' . $option, '***'));
+                throw new Exception('Wrong query option: '.$option);
             }
+
             if ($option == 'MYSQLI_NESTJOIN') {
                 $this->nestJoin = true;
             } elseif ($option == 'FOR UPDATE') {
@@ -1346,8 +1487,10 @@ class PDODb
                 $this->queryOptions[] = $option;
             }
         }
+
         return $this;
     }
+
     /**
      * Set fetch return type
      *
@@ -1359,6 +1502,7 @@ class PDODb
         $this->returnType = $returnType;
         return $this;
     }
+
     /**
      * Begin a transaction
      *
@@ -1367,11 +1511,11 @@ class PDODb
      */
     public function startTransaction()
     {
-        $this->pdo()
-            ->beginTransaction();
+        $this->pdo()->beginTransaction();
         $this->transaction = true;
         register_shutdown_function([$this, "checkTransactionStatus"]);
     }
+
     /**
      * Method creates new PDODb object for a subquery generation
      *
@@ -1382,6 +1526,7 @@ class PDODb
     {
         return new self(['type' => $this->connectionParams['type'], 'host' => $subQueryAlias, 'isSubQuery' => true, 'prefix' => $this->prefix]);
     }
+
     /**
      * Method to check if needed table is created
      *
@@ -1391,12 +1536,13 @@ class PDODb
     public function tableExists($tables)
     {
         $tables = !is_array($tables) ? [$tables] : $tables;
-        $count = count($tables);
+        $count  = count($tables);
         if ($count == 0) {
             return false;
         }
+
         foreach ($tables as $i => $value) {
-            $tables[$i] = $this->prefix . $value;
+            $tables[$i] = $this->prefix.$value;
         }
         $this->withTotalCount();
         $this->where('table_schema', $this->connectionParams['dbname']);
@@ -1404,23 +1550,7 @@ class PDODb
         $this->get('information_schema.tables', $count);
         return $this->totalCount == $count;
     }
-    function getAllSchema($table = null)
-    {
-        if (!count($this->_schema)) {
-            $rs = $this->rawQuery("select * from information_schema.columns where table_schema = '" . $this->connectionParams['dbname'] . "'");
-            $rdata = array();
-            foreach ($rs as $k => $v) {
-                $rdata[$v['TABLE_NAME']][$v['COLUMN_NAME']] = array(
-                    "COLUMN_KEY" => $v['COLUMN_KEY'],
-                    "DATA_TYPE" => $v['DATA_TYPE'],
-                    "IS_NULLABLE" => $v['IS_NULLABLE'],
-                    "COLUMN_DEFAULT" => $v['COLUMN_DEFAULT']
-                );
-            }
-            $this->_schema = $rdata;
-        }
-        if ($table != null && $this->_schema != null) return $this->_schema[$table];
-    }
+
     /**
      * Update query. Be sure to first call the "where" method.
      *
@@ -1429,109 +1559,26 @@ class PDODb
      * @param int    $numRows   Limit on the number of rows that can be updated.
      * @return bool
      */
-    public function fillTable($table, &$data, $old_data = array(), $where = "", $is_update = false)
-    {
-        $fields = $this->getAllSchema($table);
-        $ignore_field = array();
-        $data_noise = $data;
-        $update_one = false;
-        if ($old_data) {
-            if (count($old_data)) {
-                $data = array_merge($old_data, $data);
-            }
-        }
-        $_where = array();
-        if ($where) {
-            $this->where = $where;
-            foreach ($this->where as $item) {
-                unset($fields[$item[1]]);
-                $_where[] = $item[1];
-            }
-        }
-        $pri = null;
-        if ($fields) {
-            foreach ($fields as $k => $v) {
-                if ($v['COLUMN_KEY'] == 'PRI') {
-                    $pri[] = $k;
-                    if (in_array($k, $_where)) {
-                        $update_one = true;
-                    }
-                }
-                if ($v['COLUMN_KEY'] != 'PRI' && isset($data[$k])) {
-                    $value = $data[$k];
-                    if (!$value) {
-                        $_type = $v['DATA_TYPE'];
-                        if (strpos($_type, 'int') !== false | strpos($_type, 'float') !== false | strpos($_type, 'double') !== false) {
-                            $value = 0;
-                        }
-                        if ($_type == 'date') {
-                            $value = '0000-00-00';
-                        }
-                        if ($_type == 'datetime') {
-                            $value = '0000-00-00 00:00:00';
-                        }
-                        if ($_type == 'timestamp') {
-                            $value = 'CURRENT_TIMESTAMP';
-                        }
-                    }
-                    $data[$k] = $value;
-                } else {
-                    $_type = $v['DATA_TYPE'];
-                    $value = "";
-                    if (strpos($_type, 'int') !== false | strpos($_type, 'float') !== false | strpos($_type, 'double') !== false) {
-                        $value = 0;
-                    }
-                    if ($_type == 'date') {
-                        $value = '0000-00-00';
-                    }
-                    if ($_type == 'datetime') {
-                        $value = '0000-00-00 00:00:00';
-                    }
-                    if ($_type == 'timestamp') {
-                        $value = 'CURRENT_TIMESTAMP';
-                    }
-                    if ($v['COLUMN_KEY'] != 'PRI') {
-                        $data[$k] = $value;
-                    }
-                }
-            }
-        }
-        if ($pri) {
-            if (count($pri)) {
-                foreach ($pri as $k => $v) {
-                    unset($data[$v]);
-                }
-            }
-        }
-        if (!$update_one && $is_update) {
-            $data = $data_noise;
-        }
-    }
     public function update($tableName, $tableData, $numRows = null)
     {
         if ($this->isSubQuery) {
             return;
         }
-        $where = $this->where;
 
-        $this->fillTable($this->getTableName($tableName), $tableData, $this->getOne($tableName), $where, true);
-
-        $this->query = 'UPDATE ' . $this->getTableName($tableName);
+        $this->query     = 'UPDATE '.$this->getTableName($tableName);
         $this->queryType = 'UPDATE';
-        $stmt = $this->buildQuery($numRows, $tableData);
-        $status = $stmt->execute();
-        $this->lastError = $stmt->errorInfo();
+
+        $stmt                = $this->buildQuery($numRows, $tableData);
+        $status              = $stmt->execute();
+        $this->lastError     = $stmt->errorInfo();
         $this->lastErrorCode = $stmt->errorCode();
-
-        if ($this->lastError[1] > 0) {
-            die($this->sendException('SQL Prepare Error', $this->lastError[0], $this->lastError[2], $this->query));
-        }
-
-        $wherelogs = json_encode($this->where);
         $this->reset();
-        $this->rowCount = $stmt->rowCount();
+        $this->rowCount      = $stmt->rowCount();
+
+
         return $status;
     }
+
     /**
      * Set use generator options
      * @param bool $option
@@ -1540,6 +1587,7 @@ class PDODb
     {
         $this->useGenerator = $option;
     }
+
     /**
      * This method allows you to specify multiple (method chaining optional) AND WHERE statements for SQL queries.
      *
@@ -1555,9 +1603,11 @@ class PDODb
         if (count($this->where) == 0) {
             $cond = '';
         }
+
         $this->where[] = [$cond, $whereProp, $operator, $whereValue];
         return $this;
     }
+
     /**
      * Function to enable SQL_CALC_FOUND_ROWS in the get queries
      *
@@ -1568,54 +1618,4 @@ class PDODb
         $this->setQueryOption('SQL_CALC_FOUND_ROWS');
         return $this;
     }
-    /* Exception */
-    private function sendException($name, $errorNumber = '', $erroMessage = '', $sql = '')
-    {
-        $exceptions = array();
-        $exceptions['vars'] = array(
-            '{name}',
-            '{errornumber}',
-            '{errormessage}',
-            '{sqlquery}'
-        );
-        $exceptions['vals'] = array(
-            $name,
-            $errorNumber,
-            $erroMessage,
-            $sql
-        );
-
-        ob_start();
-        include dirname(__DIR__) . "/sample/pdo/exception.php";
-        $template = ob_get_contents();
-        ob_clean();
-
-        return str_replace($exceptions['vars'], $exceptions['vals'], $template);
-    }
-    /* Create logs */
-    public function insertParamsLogs($query, $params = null)
-    {
-        $queryLogs = "";
-        if ($params) {
-            $queryArr = explode("?", $query);
-            foreach ($queryArr as $k => $v) {
-                if (!empty($params[$k])) $queryArr[$k] .= "'" . $params[$k] . "'";
-                $queryLogs .= $queryArr[$k];
-            }
-        } else $queryLogs = $query;
-        return $queryLogs;
-    }
-    public function getClientIP()
-    {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP')) $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if (getenv('HTTP_X_FORWARDED_FOR')) $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if (getenv('HTTP_X_FORWARDED')) $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if (getenv('HTTP_FORWARDED_FOR')) $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if (getenv('HTTP_FORWARDED')) $ipaddress = getenv('HTTP_FORWARDED');
-        else if (getenv('REMOTE_ADDR')) $ipaddress = getenv('REMOTE_ADDR');
-        else $ipaddress = 'UNKNOWN';
-        return $ipaddress;
-    }
 }
-?>

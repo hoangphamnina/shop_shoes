@@ -41,10 +41,10 @@ if (!empty($com)) {
         $urlField = (!empty($v['field'])) ? $v['field'] : '';
         $urlCom = (!empty($v['com'])) ? $v['com'] : '';
 
-        if (!empty($urlTbl) && !in_array($urlTbl, ['static', 'photo'])) {
+        if (!empty($urlTbl)) {
             $row = $d->rawQueryOne("select id from table_$urlTbl where slug = ? and find_in_set('hienthi',status) limit 0,1", array($com));
 
-            if (!empty($row['id'])) {
+            if (!empty($row)) {
                 $_GET[$urlField] = $row['id'];
                 $com = $urlCom;
                 break;
@@ -54,9 +54,24 @@ if (!empty($com)) {
 }
 
 switch ($com) {
-    case 'san-pham':
-        $template = "product/product";
-        $type = $com;
+    case '':
+    case 'index':
+        $source = "index";
+        $template = "index/index";
         break;
+    
+    default:
+        header('HTTP/1.0 404 Not Found', true, 404);
+        include("404.php");
+        exit();
 }
+
+/* Get datas for all page */
+require_once SOURCES . "allpage.php";
+
+/* Include sources */
+if (!empty($source)) {
+    include SOURCES . $source . ".php";
+}
+
 ?>

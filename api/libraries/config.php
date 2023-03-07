@@ -40,5 +40,6 @@ $configUrl = $config['database']['server-name'] . $config['database']['url'];
 $configBase = $http . $configUrl;
 
 /* Cấu hình upload */
-require_once LIBRARIES . "constant.php";
+/* require_once LIBRARIES . "constant.php"; */
+include LIBRARIES . "upload.php";
 ?>
