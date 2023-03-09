@@ -31,8 +31,12 @@ $config = array(
     ),
 );
 
+$config['product']['width'] = 270;
+$config['product']['height'] = 270;
+
 /* Path */
 define('ROOT', str_replace(basename(__DIR__), '', __DIR__));
+define('ADMIN', 'admin');
 
 /* Cấu hình base */
 $http = 'http://';
@@ -40,6 +44,5 @@ $configUrl = $config['database']['server-name'] . $config['database']['url'];
 $configBase = $http . $configUrl;
 
 /* Cấu hình upload */
-/* require_once LIBRARIES . "constant.php"; */
 include LIBRARIES . "upload.php";
 ?>

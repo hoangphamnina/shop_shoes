@@ -1,12 +1,25 @@
 <?php
-class Functions {
+class Functions
+{
     private $d;
-    
-    function __construct($d) {
+
+    function __construct($d)
+    {
         $this->d = $d;
     }
 
-    function var_dump($arr) {
+    /* Is number */
+    public function isNumber($numbs)
+    {
+        if (preg_match('/^[0-9]+$/', $numbs)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    function var_dump($arr)
+    {
         echo '<pre>';
         print_r($arr);
         echo '</pre>';
@@ -123,7 +136,7 @@ class Functions {
                 return true;
             }
         }
-        
+
         return false;
     }
     /* Upload name */
@@ -146,15 +159,15 @@ class Functions {
             $MaxSize = $MaxSize[0];
 
             if ($_FILES[$file]['size'] > $MaxSize * 1048576) {
-                echo('Dung lượng file không được vượt quá ' . $postMaxSize);
+                echo ('Dung lượng file không được vượt quá ' . $postMaxSize);
                 return false;
             }
-            
+
             $ext = explode('.', $_FILES[$file]['name']);
             $ext = strtolower(end($ext));
             $allowed_ext = ".jpg|.gif|.png|.jpeg|.gif";
             if (strpos($allowed_ext, $ext) === false) {
-                echo('Chỉ hỗ trợ upload file dạng ' . $allowed_ext);
+                echo ('Chỉ hỗ trợ upload file dạng ' . $allowed_ext);
                 return false;
             }
 
@@ -178,5 +191,229 @@ class Functions {
             return $_FILES[$file]['name'];
         }
         return false;
+    }
+    /* Get image */
+    public function getImage($data = array())
+    {
+        global $config;
+        /* Defaults */
+        $defaults = [
+            'width' => '',
+            'height' => '',
+            'upload' => '',
+            'image' => '',
+            'upload-error' => 'assets/images/',
+            'image-error' => 'noimage.png',
+            'alt' => ''
+        ];
+        /* Data */
+        $info = array_merge($defaults, $data);
+        /* Upload - Image */
+        if (empty($info['upload']) || empty($info['image'])) {
+            $info['upload'] = $info['upload-error'];
+            $info['image'] = $info['image-error'];
+        }
+        /* Path error */
+        $info['pathError'] = $info['upload-error'] . $info['image-error'];
+        /* Path origin */
+        $info['pathOrigin'] = $info['upload'] . $info['image'];
+        /* Path src */
+        $info['pathSrc'] = $info['pathOrigin'];
+        /* Src */
+        $info['src'] = "src='" . $info['pathSrc'] . "'";
+        /* Image */
+        $result = "<img style='width:" . $info['width'] . "px; height:" . $info['height'] . "px' onerror=\"this.src='" . $info['pathError'] . "';\" " . $info['src'] . " alt='" . $info['alt'] . "'/>";
+        return $result;
+    }
+    /* Redirect */
+    public function redirect($url = '', $response = null)
+    {
+        header("location:$url", true, $response);
+        exit();
+    }
+    /* Transfer */
+    public function transfer($msg = '', $page = '', $numb = true)
+    {
+        global $configBase;
+        $basehref = $configBase;
+        $showtext = $msg;
+        $page_transfer = $page;
+        $numb = $numb;
+        include("../templates/layout/transfer.php");
+        exit();
+    }
+    /* Lấy link page hiện tại */
+    public function getCurrentPageURL()
+    {
+        $pageURL = 'http';
+        if (array_key_exists('HTTPS', $_SERVER) && $_SERVER["HTTPS"] == "on") $pageURL .= "s";
+        $pageURL .= "://";
+        $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+        $urlpos = strpos($pageURL, "?page");
+        $pageURL = ($urlpos) ? explode("?page=", $pageURL) : explode("&page=", $pageURL);
+        return $pageURL[0];
+    }
+
+    /* Pagination */
+    public function pagination($totalq = 0, $perPage = 10, $page = 1, $url = '?')
+    {
+        $urlpos = strpos($url, "?");
+        $url = ($urlpos) ? $url . "&" : $url . "?";
+        $total = $totalq;
+        $adjacents = "2";
+        $firstlabel = "First";
+        $prevlabel = "Prev";
+        $nextlabel = "Next";
+        $lastlabel = "Last";
+        $page = ($page == 0 ? 1 : $page);
+        $start = ($page - 1) * $perPage;
+        $prev = $page - 1;
+        $next = $page + 1;
+        $lastpage = ceil($total / $perPage);
+        $lpm1 = $lastpage - 1;
+        $pagination = "";
+        if ($lastpage > 1) {
+            $pagination .= "<ul class='pagination flex-wrap justify-content-center mb-0'>";
+            $pagination .= "<li class='page-item'><a class='page-link'>Page {$page} / {$lastpage}</a></li>";
+            if ($page > 1) {
+                $pagination .= "<li class='page-item'><a class='page-link' href='{$this->getCurrentPageURL()}'>{$firstlabel}</a></li>";
+                $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$prev}'>{$prevlabel}</a></li>";
+            }
+            if ($lastpage < 7 + ($adjacents * 2)) {
+                for ($counter = 1; $counter <= $lastpage; $counter++) {
+                    if ($counter == $page) $pagination .= "<li class='page-item active'><a class='page-link'>{$counter}</a></li>";
+                    else $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$counter}'>{$counter}</a></li>";
+                }
+            } elseif ($lastpage > 5 + ($adjacents * 2)) {
+                if ($page < 1 + ($adjacents * 2)) {
+                    for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++) {
+                        if ($counter == $page) $pagination .= "<li class='page-item active'><a class='page-link'>{$counter}</a></li>";
+                        else $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$counter}'>{$counter}</a></li>";
+                    }
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>...</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$lpm1}'>{$lpm1}</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$lastpage}'>{$lastpage}</a></li>";
+                } elseif ($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2)) {
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>1</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=2'>2</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>...</a></li>";
+                    for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++) {
+                        if ($counter == $page) $pagination .= "<li class='page-item active'><a class='page-link'>{$counter}</a></li>";
+                        else $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$counter}'>{$counter}</a></li>";
+                    }
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>...</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$lpm1}'>{$lpm1}</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$lastpage}'>{$lastpage}</a></li>";
+                } else {
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>1</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=2'>2</a></li>";
+                    $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=1'>...</a></li>";
+                    for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++) {
+                        if ($counter == $page) $pagination .= "<li class='page-item active'><a class='page-link'>{$counter}</a></li>";
+                        else $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$counter}'>{$counter}</a></li>";
+                    }
+                }
+            }
+            if ($page < $counter - 1) {
+                $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page={$next}'>{$nextlabel}</a></li>";
+                $pagination .= "<li class='page-item'><a class='page-link' href='{$url}page=$lastpage'>{$lastlabel}</a></li>";
+            }
+            $pagination .= "</ul>";
+        }
+        return $pagination;
+    }
+
+    /* Get category by link */
+    public function getLinkCategory($table = '', $level = '', $title_select = 'Chọn danh mục')
+    {
+        global $d;
+
+        $where = '';
+        $id_parent = 'id_' . $level;
+
+        $rows = $d->rawQuery("select name, id from table_" . $table . "_" . $level . " where id > 0 " . $where . " order by numb,id desc", array());
+        $str = '<select id="' . $id_parent . '" name="' . $id_parent . '" onchange="onchangeCategory($(this))" class="form-control filter-category select2"><option value="0">' . $title_select . '</option>';
+        foreach ($rows as $v) {
+            if (isset($_REQUEST[$id_parent]) && ($v["id"] == (int)$_REQUEST[$id_parent])) $selected = "selected";
+            else $selected = "";
+            $str .= '<option value=' . $v["id"] . ' ' . $selected . '>' . $v["name"] . '</option>';
+        }
+        $str .= '</select>';
+        return $str;
+    }
+    /* Get category by ajax */
+    public function getAjaxCategory($table = '', $level = '', $title_select = 'Chọn danh mục', $class_select = 'select-category')
+    {
+        global $d;
+
+        $where = '';
+        $id_parent = 'id_' . $level;
+        $data_level = '';
+        $data_table = '';
+        $data_child = '';
+        if ($level == 'list') {
+            $data_level = 'data-level="0"';
+            $data_table = 'data-table="#_' . $table . '_list"';
+            $data_child = 'data-child="id_list"';
+        } else if ($level == 'brand') {
+            $data_level = '';
+            $class_select = '';
+        }
+        $rows = $d->rawQuery("select name, id from table_" . $table . "_" . $level . " where id > 0 " . $where . " order by numb,id desc", array());
+        $str = '<select id="' . $id_parent . '" name="data[' . $id_parent . ']" ' . $data_level . ' ' . $data_table . ' ' . $data_child . ' class="form-control select2 ' . $class_select . '"><option value="0">' . $title_select . '</option>';
+        foreach ($rows as $v) {
+            if (isset($_REQUEST[$id_parent]) && ($v["id"] == (int)$_REQUEST[$id_parent])) $selected = "selected";
+            else $selected = "";
+            $str .= '<option value=' . $v["id"] . ' ' . $selected . '>' . $v["name"] . '</option>';
+        }
+        $str .= '</select>';
+        return $str;
+    }
+    /* Decode html characters */
+    public function decodeHtmlChars($htmlChars)
+    {
+        return htmlspecialchars_decode($htmlChars ?: '');
+    }
+    /* Check title */
+    public function checkTitle($data = array())
+    {
+        global $config;
+        $result = array();
+        if (isset($data['name'])) {
+            $title = trim($data['name']);
+            if (empty($title)) {
+                $result[] = 'Tiêu đề không được trống';
+            }
+        }
+        return $result;
+    }
+    /* Check slug */
+    public function checkSlug($data = array())
+    {
+        global $d;
+
+        $result = 'valid';
+        if (isset($data['slug'])) {
+            $slug = trim($data['slug']);
+            if (!empty($slug)) {
+                $table = array(
+                    "table_product_list",
+                    "table_product_brand",
+                    "table_product",
+                    "table_news",
+                );
+                $where = (!empty($data['id'])) ? "id != " . $data['id'] . " and " : "";
+                foreach ($table as $v) {
+                    $check = $d->rawQueryOne("select id from $v where $where slug = ? limit 0,1", array($data['slug']));
+                    if (!empty($check['id'])) {
+                        $result = 'exist';
+                        break;
+                    }
+                }
+            } else {
+                $result = 'empty';
+            }
+        }
+        return $result;
     }
 }

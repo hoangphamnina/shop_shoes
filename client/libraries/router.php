@@ -1,7 +1,16 @@
 <?php
 /* Router */
 $router->setBasePath($config['database']['url']);
-
+$router->map('GET', ADMIN . '/', function () {
+    global $func, $config;
+    $func->redirect($config['database']['url'] . ADMIN . "/index.php");
+    exit;
+});
+$router->map('GET', ADMIN, function () {
+    global $func, $config;
+    $func->redirect($config['database']['url'] . ADMIN . "/index.php");
+    exit;
+});
 $router->map('GET|POST', '', 'index', 'home');
 $router->map('GET|POST', 'index.php', 'index', 'index');
 $router->map('GET|POST', '[a:com]', 'allpage', 'show');
@@ -73,5 +82,3 @@ require_once SOURCES . "allpage.php";
 if (!empty($source)) {
     include SOURCES . $source . ".php";
 }
-
-?>
